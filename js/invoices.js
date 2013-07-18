@@ -63,9 +63,6 @@ InvoiceItem.prototype.totalBruttoPrice = function () {
     return this.roundPrice(totalBruttoPrice);
 };
 
-
 InvoiceItem.prototype.roundPrice = function (price) {
     return Number((price.toFixed(2)));
 };
-//TODO add Invoice -> renumber all
-//TODO remove Invoice -> renumber all

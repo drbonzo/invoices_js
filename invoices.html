@@ -2,6 +2,7 @@
 <html ng-app>
 <head>
     <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/jquery/jquery.min.js"></script>
     <script src="js/invoices.js"></script>
     <link rel="stylesheet" href="css/invoices.css">
 </head>
@@ -15,7 +16,6 @@
 
 <div ng-controller="InvoiceController">
     <form class="css-form">
-
 
         <table>
             <tr>
@@ -33,7 +33,7 @@
             </tr>
             <tr ng-repeat="invoiceItem in invoiceItems">
                 <td>{{ $index + 1}}</td>
-                <td><input type="text" size="20" required ng-model="invoiceItem.name"/></td>
+                <td><input type="text" size="20" required ng-model="invoiceItem.name" placeholder="Towar/usługa"/></td>
                 <td class="numeric"><input type="number" min="1" required size="4" ng-model="invoiceItem.quantity"/></td>
                 <td class="numeric"><input type="number" min="0" required size="8" ng-model="invoiceItem.unitNettoPrice"/></td>
                 <td class="numeric">{{ invoiceItem.unitBruttoPrice() | number:2 }}</td>
