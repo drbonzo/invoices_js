@@ -29,11 +29,12 @@
                 <th>Wartość netto</th>
                 <th>Kwota VAT</th>
                 <th>Kwota Brutto</th>
+                <th></th>
             </tr>
             <tr ng-repeat="invoiceItem in invoiceItems">
                 <td>{{ $index + 1}}</td>
-                <td><input type="text" size="20" ng-model="invoiceItem.name"/></td>
-                <td class="numeric"><input type="number" min="0" required size="4" ng-model="invoiceItem.quantity"/></td>
+                <td><input type="text" size="20" required ng-model="invoiceItem.name"/></td>
+                <td class="numeric"><input type="number" min="1" required size="4" ng-model="invoiceItem.quantity"/></td>
                 <td class="numeric"><input type="number" min="0" required size="8" ng-model="invoiceItem.unitNettoPrice"/></td>
                 <td class="numeric">{{ invoiceItem.unitBruttoPrice() | number:2 }}</td>
                 <td><select ng-model="invoiceItem.vatRate" ng-options="r.label for r in vatRates" ng-required></select></td>
@@ -41,8 +42,11 @@
                 <td class="numeric">{{ invoiceItem.totalNettoPrice() | number:2 }}</td>
                 <td class="numeric">{{ invoiceItem.totalVatPrice() | number:2 }}</td>
                 <td class="numeric">{{ invoiceItem.totalBruttoPrice() | number:2 }}</td>
+                <td><a href="" ng-click="removeInvoiceItem(invoiceItem)">Usuń</a></td>
             </tr>
         </table>
+
+        <button type="button" ng-click="addNewInvoiceItem();">Dodaj pozycję</button>
     </form>
 </div>
 

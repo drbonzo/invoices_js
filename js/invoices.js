@@ -20,6 +20,16 @@ function InvoiceController($scope) {
         new InvoiceItem('Foobar', 9.99, 3.2, defaultVatRate)
     ];
 
+    $scope.removeInvoiceItem = function (invoiceItem) {
+        var i = $scope.invoiceItems.indexOf(invoiceItem);
+        if (i != -1) {
+            $scope.invoiceItems.splice(i, 1);
+        }
+    };
+
+    $scope.addNewInvoiceItem = function () {
+        $scope.invoiceItems.push(new InvoiceItem(null, 0, 1, defaultVatRate));
+    };
 }
 
 function InvoiceItem(name, unitNettoPrice, quantity, vatRate) {
