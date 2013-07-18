@@ -14,33 +14,37 @@
 </p>
 
 <div ng-controller="InvoiceController">
-    <table>
-        <tr>
-            <th>Lp.</th>
-            <th>Towar/Usługa</th>
-            <th>Ilość</th>
-            <th>Cena netto</th>
-            <th>Cena brutto</th>
-            <th>Stawka VAT</th>
-            <th>VAT</th>
-            <th>Wartość netto</th>
-            <th>Kwota VAT</th>
-            <th>Kwota Brutto</th>
-        </tr>
-        <tr ng-repeat="invoiceItem in invoiceItems">
-            <td>{{ invoiceItem.index }}</td>
-            <!-- FIXME numeracje popraw -->
-            <td><input type="text" size="20" ng-model="invoiceItem.name"/></td>
-            <td class="numeric"><input type="text" size="4" ng-model="invoiceItem.quantity"/></td>
-            <td class="numeric"><input type="text" size="8" ng-model="invoiceItem.unitNettoPrice"/></td>
-            <td class="numeric">{{ invoiceItem.unitBruttoPrice() | number:2 }}</td>
-            <td><select ng-model="invoiceItem.vatRate" ng-options="r.label for r in vatRates" ng-required></select></td>
-            <td class="numeric">{{ invoiceItem.vat() | number:0 }}</td>
-            <td class="numeric">{{ invoiceItem.totalNettoPrice() | number:2 }}</td>
-            <td class="numeric">{{ invoiceItem.totalVatPrice() | number:2 }}</td>
-            <td class="numeric">{{ invoiceItem.totalBruttoPrice() | number:2 }}</td>
-        </tr>
-    </table>
+    <form class="css-form">
+
+
+        <table>
+            <tr>
+                <th>Lp.</th>
+                <th>Towar/Usługa</th>
+                <th>Ilość</th>
+                <th>Cena netto</th>
+                <th>Cena brutto</th>
+                <th>Stawka VAT</th>
+                <th>VAT</th>
+                <th>Wartość netto</th>
+                <th>Kwota VAT</th>
+                <th>Kwota Brutto</th>
+            </tr>
+            <tr ng-repeat="invoiceItem in invoiceItems">
+                <td>{{ invoiceItem.index }}</td>
+                <!-- FIXME numeracje popraw -->
+                <td><input type="text" size="20" ng-model="invoiceItem.name"/></td>
+                <td class="numeric"><input type="number" min="0" required size="4" ng-model="invoiceItem.quantity"/></td>
+                <td class="numeric"><input type="number" min="0" required size="8" ng-model="invoiceItem.unitNettoPrice"/></td>
+                <td class="numeric">{{ invoiceItem.unitBruttoPrice() | number:2 }}</td>
+                <td><select ng-model="invoiceItem.vatRate" ng-options="r.label for r in vatRates" ng-required></select></td>
+                <td class="numeric">{{ invoiceItem.vat() | number:0 }}</td>
+                <td class="numeric">{{ invoiceItem.totalNettoPrice() | number:2 }}</td>
+                <td class="numeric">{{ invoiceItem.totalVatPrice() | number:2 }}</td>
+                <td class="numeric">{{ invoiceItem.totalBruttoPrice() | number:2 }}</td>
+            </tr>
+        </table>
+    </form>
 </div>
 
 </body>

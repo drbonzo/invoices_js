@@ -35,3 +35,19 @@ p.disclaimer {
     background-color: #eee;
     border: solid 1px #aaa;
 }
+
+.css-form .ng-valid {
+
+}
+
+.css-form .ng-invalid {
+    background-color: #fcc !important;
+}
+
+.css-form .ng-pristine {
+}
+
+.css-form .ng-dirty {
+    background-color: #eef;
+}
+
