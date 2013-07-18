@@ -1,0 +1,29 @@
+body {
+    font-family: sans-serif;
+    font-size: 10pt;
+}
+
+table {
+    border-collapse: collapse;
+    border: solid 1px black;
+}
+
+table th,
+table td {
+    padding: 5px;
+    border: solid 1px black;
+}
+
+td.numeric {
+    text-align: right;
+}
+
+td.numeric input {
+    text-align: right;
+}
+
+p.disclaimer {
+    padding: 10px;
+    background-color: #eee;
+    border: solid 1px #aaa;
+}

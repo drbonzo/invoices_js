@@ -1,0 +1,48 @@
+<!doctype html>
+<html ng-app>
+<head>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="js/invoices.js"></script>
+    <link rel="stylesheet" href="css/invoices.css">
+</head>
+<body>
+
+<h1>Invoice</h1>
+
+<p class="disclaimer">
+    For test purposes only. Data is not saved. Invoice will not be generated. Use for test only.
+</p>
+
+<div ng-controller="InvoiceController">
+    <table>
+        <tr>
+            <th>Lp.</th>
+            <th>Towar/Usługa</th>
+            <th>Ilość</th>
+            <th>Cena netto</th>
+            <th>Cena brutto</th>
+            <th>Stawka VAT</th>
+            <th>VAT</th>
+            <th>Wartość netto</th>
+            <th>Kwota VAT</th>
+            <th>Kwota Brutto</th>
+        </tr>
+        <tr ng-repeat="invoiceItem in invoiceItems">
+            <td>{{ invoiceItem.index }}</td>
+            <!-- FIXME numeracje popraw -->
+            <td><input type="text" size="20" ng-model="invoiceItem.name"/></td>
+            <td class="numeric"><input type="text" size="4" ng-model="invoiceItem.quantity"/></td>
+            <td class="numeric"><input type="text" size="8" ng-model="invoiceItem.unitNettoPrice"/></td>
+            <td class="numeric">{{ invoiceItem.unitBruttoPrice() }}</td>
+            <td>TODO</td>
+            <td class="numeric">{{ invoiceItem.vat }}</td>
+            <!-- TODO zamien na %%% i w ogole <select> -->
+            <td class="numeric">{{ invoiceItem.totalNettoPrice() }}</td>
+            <td class="numeric">{{ invoiceItem.totalVatPrice() }}</td>
+            <td class="numeric">{{ invoiceItem.totalBruttoPrice() }}</td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
