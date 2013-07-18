@@ -1,25 +1,41 @@
 function InvoiceController($scope) {
 
+    $scope.vatRates = [
+        { label: "23 %", id: 23, value: 0.23 },
+        { label: "8 %", id: 8, value: 0.08 },
+        { label: "5 %", id: 3, value: 0.05 },
+        { label: "0 %", id: 0, value: 0.0 },
+        { label: "zw.", id: -1, value: 0.0 }
+    ];
+
+    var defaultVatRate = $scope.vatRates[0];
+
+    $scope.selectedVatRate = defaultVatRate; // must be THE SAME object as in vatRates
+
     $scope.invoiceItems = [
-        new InvoiceItem('iPhone 5', 199.99, 9),
-        new InvoiceItem('iPad 3', 499.99, 7),
-        new InvoiceItem('MacBook Air', 999.99, 1),
-        new InvoiceItem('iMac 21', 1299.99, 3),
-        new InvoiceItem('Foobar', 9.99, 3.2)
+        new InvoiceItem('iPhone 5', 199.99, 9, defaultVatRate),
+        new InvoiceItem('iPad 3', 499.99, 7, defaultVatRate),
+        new InvoiceItem('MacBook Air', 999.99, 1, defaultVatRate),
+        new InvoiceItem('iMac 21', 1299.99, 3, defaultVatRate),
+        new InvoiceItem('Foobar', 9.99, 3.2, defaultVatRate)
     ];
 
 }
 
-function InvoiceItem(name, unitNettoPrice, quantity) {
+function InvoiceItem(name, unitNettoPrice, quantity, vatRate) {
     this.index = 0;
     this.name = name;
     this.unitNettoPrice = unitNettoPrice;
     this.quantity = quantity;
-    this.vat = 0.23;
+    this.vatRate = vatRate;
 }
 
+InvoiceItem.prototype.vat = function () {
+    return this.vatRate.value;
+};
+
 InvoiceItem.prototype.unitBruttoPrice = function () {
-    var unitBruttoPrice = this.unitNettoPrice * (1.0 + this.vat);
+    var unitBruttoPrice = this.unitNettoPrice * (1.0 + this.vat());
     return this.roundPrice(unitBruttoPrice);
 };
 
@@ -29,7 +45,7 @@ InvoiceItem.prototype.totalNettoPrice = function () {
 };
 
 InvoiceItem.prototype.totalVatPrice = function () {
-    var totalVatPrice = this.totalNettoPrice() * this.vat;
+    var totalVatPrice = this.totalNettoPrice() * this.vat();
     return this.roundPrice(totalVatPrice);
 };
 InvoiceItem.prototype.totalBruttoPrice = function () {
