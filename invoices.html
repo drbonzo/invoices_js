@@ -31,8 +31,7 @@
                 <th>Kwota Brutto</th>
             </tr>
             <tr ng-repeat="invoiceItem in invoiceItems">
-                <td>{{ invoiceItem.index }}</td>
-                <!-- FIXME numeracje popraw -->
+                <td>{{ $index + 1}}</td>
                 <td><input type="text" size="20" ng-model="invoiceItem.name"/></td>
                 <td class="numeric"><input type="number" min="0" required size="4" ng-model="invoiceItem.quantity"/></td>
                 <td class="numeric"><input type="number" min="0" required size="8" ng-model="invoiceItem.unitNettoPrice"/></td>

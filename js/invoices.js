@@ -23,7 +23,6 @@ function InvoiceController($scope) {
 }
 
 function InvoiceItem(name, unitNettoPrice, quantity, vatRate) {
-    this.index = 0;
     this.name = name;
     this.unitNettoPrice = unitNettoPrice;
     this.quantity = quantity;
