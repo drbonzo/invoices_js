@@ -17,7 +17,7 @@
 <div ng-controller="InvoiceController">
     <form class="css-form">
 
-        <table>
+        <table class="invoiceItems">
             <tr>
                 <th>Lp.</th>
                 <th>Towar/Usługa</th>
@@ -31,7 +31,7 @@
                 <th>Kwota Brutto</th>
                 <th></th>
             </tr>
-            <tr ng-repeat="invoiceItem in invoiceItems">
+            <tr class="invoiceItem" ng-repeat="invoiceItem in invoiceItems">
                 <td>{{ $index + 1}}</td>
                 <td><input type="text" size="20" required ng-model="invoiceItem.name" placeholder="Towar/usługa"/></td>
                 <td class="numeric"><input type="number" min="1" required size="4" ng-model="invoiceItem.quantity"/></td>

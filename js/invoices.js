@@ -29,6 +29,10 @@ function InvoiceController($scope) {
 
     $scope.addNewInvoiceItem = function () {
         $scope.invoiceItems.push(new InvoiceItem(null, 0, 1, defaultVatRate));
+        // needs to be called "later" as it will not work
+        setTimeout(function() {
+            $('.invoiceItems tr.invoiceItem:last input:first').focus();
+        }, 10);
     };
 }
 
