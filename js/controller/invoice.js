@@ -29,5 +29,3 @@ function InvoiceController($scope) {
         $scope.invoice.removeInvoiceItem(invoiceItem);
     }
 }
-
-
