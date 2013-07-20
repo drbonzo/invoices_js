@@ -16,6 +16,7 @@ table td {
 
 table th {
     border: solid 1px black;
+    background-color: #eee;
 }
 
 table td {
@@ -28,6 +29,13 @@ td.numeric {
 
 td.numeric input {
     text-align: right;
+}
+
+
+table tr.summaryRow td
+{
+    font-weight: bold;
+    background-color: #eee;
 }
 
 p.disclaimer {

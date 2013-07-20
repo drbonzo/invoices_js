@@ -184,6 +184,9 @@ InvoiceVatTable.prototype.addVatTableRow = function (vatTableRow) {
  * @param {InvoiceItem[]|Array} invoiceItems
  */
 InvoiceVatTable.prototype.refresh = function (invoiceItems) {
+
+    this.summaryRow.reset();
+
     // find row for this item
     for (var r in this.rows) {
         var row = this.rows[r];
@@ -203,6 +206,8 @@ InvoiceVatTable.prototype.refresh = function (invoiceItems) {
 
         // compute totals
         row.refreshTotals();
+
+        this.summaryRow.addTotals(row.totalNettoValue, row.totalVatValue, row.totalBruttoValue);
     }
 };
 /**
@@ -245,9 +250,25 @@ InvoiceVatTableRow.prototype.refreshTotals = function () {
     this.totalBruttoValue = this.roundPrice(this.totalNettoValue + this.totalVatValue);
 };
 
-function InvoiceVatTableSummaryRow() {// FIXME
+function InvoiceVatTableSummaryRow() {
+    this.totalNettoValue = 0.0;
+    this.totalVatValue = 0.0;
+    this.totalBruttoValue = 0.0;
 
+    this.reset();
 }
+
+InvoiceVatTableSummaryRow.prototype.reset = function () {
+    this.totalNettoValue = 0.0;
+    this.totalVatValue = 0.0;
+    this.totalBruttoValue = 0.0;
+};
+
+InvoiceVatTableSummaryRow.prototype.addTotals = function (totalNettoValue, totalVatValue, totalBruttoValue) {
+    this.totalNettoValue += totalNettoValue;
+    this.totalVatValue += totalVatValue;
+    this.totalBruttoValue += totalBruttoValue;
+};
 
 /**
  * @param {string} name
