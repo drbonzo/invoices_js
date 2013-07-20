@@ -51,3 +51,6 @@ p.disclaimer {
     background-color: #eef;
 }
 
+input.invoiceNumber {
+    font-size: 27px;
+}
