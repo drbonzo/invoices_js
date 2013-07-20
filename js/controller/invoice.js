@@ -27,5 +27,9 @@ function InvoiceController($scope) {
 
     $scope.removeInvoiceItem = function (invoiceItem) {
         $scope.invoice.removeInvoiceItem(invoiceItem);
+    };
+
+    $scope.getVatTable = function () {
+        return $scope.invoice.getVatTable();
     }
 }

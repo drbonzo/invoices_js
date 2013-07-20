@@ -52,25 +52,24 @@
             </tr>
         </table>
     </form>
-    <!--
-<h2>Tabela stawek VAT</h2>
-<table>
-    <tr>
-        <th>Wartość Netto</th>
-        <th>Stawka VAT</th>
-        <th>VAT</th>
-        <th>Kwota VAT</th>
-        <th>Kwota Brutto</th>
-    </tr>
-    <tr ng-repeat="vatSummaryRow in getVatSummaryRows()" ng-show="vatSummaryRow.totalNettoValue != 0 ">
-        <td class="numeric">{{ vatSummaryRow.totalNettoValue | number:4 }}</td>
-        <td class="numeric">{{ vatSummaryRow.vatRate.label }}</td>
-        <td class="numeric">{{ vatSummaryRow.vatRate.value * 100 | number:0 }} %</td>
-        <td class="numeric">{{ vatSummaryRow.totalVatValue | number:4 }}</td>
-        <td class="numeric">{{ vatSummaryRow.totalBruttoValue | number:4 }}</td>
-    </tr>
-</table>
--->
+    <h2>Tabela stawek VAT</h2>
+    <table>
+        <tr>
+            <th>Wartość Netto</th>
+            <th>Stawka VAT</th>
+            <th>VAT</th>
+            <th>Kwota VAT</th>
+            <th>Kwota Brutto</th>
+        </tr>
+        <tr ng-repeat="vatTableRow in getVatTable().rows">
+            <!-- ng-show="vatTableRow.totalNettoValue" != 0  -->
+            <td class="numeric">{{ vatTableRow.totalNettoValue | number:4 }}</td>
+            <td class="numeric">{{ vatTableRow.vatRate.name }}</td>
+            <td class="numeric">{{ vatTableRow.vatRate.value * 100 | number:0 }} %</td>
+            <td class="numeric">{{ vatTableRow.totalVatValue | number:4 }}</td>
+            <td class="numeric">{{ vatTableRow.totalBruttoValue | number:4 }}</td>
+        </tr>
+    </table>
 </div>
 
 </body>
