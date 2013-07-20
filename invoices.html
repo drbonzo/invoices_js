@@ -38,7 +38,7 @@
                 <td class="numeric"><input type="number" min="1" required size="4" ng-model="invoiceItem.quantity"/></td>
                 <td class="numeric"><input type="number" min="0" required size="8" ng-model="invoiceItem.unitNettoPrice"/></td>
                 <td class="numeric">{{ invoiceItem.unitBruttoPrice() | number:2 }}</td>
-                <td><select ng-model="invoiceItem.vatRate" ng-options="r.name for (vrKey, r) in invoice.vatRates" ng-required></select></td>
+                <td><select ng-model="invoiceItem.vatRate" ng-options="r.name for r in invoice.vatRates" ng-required></select></td>
                 <td class="numeric">{{ invoiceItem.vat() * 100.0 | number:0 }}%</td>
                 <td class="numeric">{{ invoiceItem.totalNettoValue() | number:2 }}</td>
                 <td class="numeric">{{ invoiceItem.totalVatValue() | number:2 }}</td>

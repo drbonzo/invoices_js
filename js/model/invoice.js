@@ -5,33 +5,34 @@ function InvoiceFromBruttoPrices() {
 function InvoiceFromNettoPrices(fullNumber) {
     this.fullNumber = fullNumber;
     this.invoiceItems = [];
-    this.vatRates = {};
+    this.vatRates = [];
 
     this.initializeVatRates();
 }
 
 InvoiceFromNettoPrices.prototype.initializeVatRates = function () {
 
-    var vatRate23 = new InvoiceVatRate('23%', 0.23);
-    this.vatRates[vatRate23.id] = vatRate23;
-
-    var vatRate8 = new InvoiceVatRate('8%', 0.08);
-    this.vatRates[vatRate8.id] = vatRate8;
-
-    var vatRate5 = new InvoiceVatRate('5%', 0.05);
-    this.vatRates[vatRate5.id] = vatRate5;
-
-    var vatRate0 = new InvoiceVatRate('0%', 0.0);
-    this.vatRates[vatRate0.id] = vatRate0;
-
-    var vatRateZw = new InvoiceVatRate('zw', 0.0);
-    this.vatRates[vatRateZw.id] = vatRateZw;
+    this.vatRates.push(new InvoiceVatRate('23%', 0.23));
+    this.vatRates.push(new InvoiceVatRate('8%', 0.08));
+    this.vatRates.push(new InvoiceVatRate('5%', 0.05));
+    this.vatRates.push(new InvoiceVatRate('0%', 0.0));
+    this.vatRates.push(new InvoiceVatRate('zw.', 0.0));
 };
 
-InvoiceFromNettoPrices.prototype.addInvoiceItemFromData = function (name, unitNettPrice, quantity, vatRateId) {
+InvoiceFromNettoPrices.prototype.getVatRateForId = function (vatRateId) {
+    for (var i in this.vatRates) {
+        if (this.vatRates[i].id == vatRateId) {
+            return this.vatRates[i];
+        }
+    }
+
+    throw "InvoiceVatRate not defined for vatRateId = '" + vatRateId + '"';
+};
+
+InvoiceFromNettoPrices.prototype.addInvoiceItemFromData = function (name, unitNettPrice, quantity, vatRate) {
     var invoiceItem = new InvoiceItem();
     invoiceItem.name = name;
-    invoiceItem.vatRate = this.vatRates[vatRateId];
+    invoiceItem.vatRate = vatRate;
     invoiceItem.unitNettoPrice = unitNettPrice;
     invoiceItem.quantity = quantity;
 
