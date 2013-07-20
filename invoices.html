@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<h1>Invoice</h1>
+<h1>Faktura</h1>
 
 <p class="disclaimer">
     For test purposes only. Data is not saved. Invoice will not be generated. Use for test only.
@@ -44,10 +44,32 @@
                 <td class="numeric">{{ invoiceItem.totalBruttoPrice() | number:2 }}</td>
                 <td><a href="" ng-click="removeInvoiceItem(invoiceItem)">Usuń</a></td>
             </tr>
+            <tr>
+                <td colspan="11">
+                    <button type="button" ng-click="addNewInvoiceItem();">Dodaj pozycję</button>
+                </td>
+            </tr>
         </table>
-
-        <button type="button" ng-click="addNewInvoiceItem();">Dodaj pozycję</button>
     </form>
+
+    <h2>Tabela stawek VAT</h2>
+    <table>
+        <tr>
+            <th>Wartość Netto</th>
+            <th>Stawka VAT</th>
+            <th>VAT</th>
+            <th>Kwota VAT</th>
+            <th>Kwota Brutto</th>
+        </tr>
+        <tr ng-repeat="vatSummaryRow in getVatSummaryRows()" ng-show="vatSummaryRow.totalNettoValue != 0 ">
+            <td class="numeric">{{ vatSummaryRow.totalNettoValue | number:4 }}</td>
+            <td class="numeric">{{ vatSummaryRow.vatRate.label }}</td>
+            <td class="numeric">{{ vatSummaryRow.vatRate.value * 100 | number:0 }} %</td>
+            <td class="numeric">{{ vatSummaryRow.totalVatValue | number:4 }}</td>
+            <td class="numeric">{{ vatSummaryRow.totalBruttoValue | number:4 }}</td>
+        </tr>
+    </table>
+
 </div>
 
 </body>
