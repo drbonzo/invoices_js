@@ -15,15 +15,16 @@
 <div class="container" ng-controller="InvoiceController">
     <div class="row">
 
+        <div class="page-header">
+            <h1>Faktura: <input class="invoiceNumber" type="text" ng-model="invoice.fullNumber"/> (Wystawiana od ceny netto)</h1>
+        </div>
 
-        <h1>Faktura: <input class="invoiceNumber" type="text" ng-model="invoice.fullNumber"/> (Wystawiana od ceny netto)</h1>
-
-        <p class="disclaimer">
-            Aplikacja prezentacyjna. Przedstawia ona możliwości frameworka AngularJS. Nie można za jej pomocą wystawić Faktury VAT.
+        <p class="alert alert-danger">
+            Aplikacja prezentacyjna. Przedstawia ona możliwości frameworka AngularJS. Nie można za jej pomocą wystawić Faktury VAT. Dane nie są nigdzie zapisywane.
         </p>
 
         <form class="css-form">
-            <table class="table table-bordered table-condensed invoiceItems">
+            <table class="table table-bordered table-condensed table-hover invoiceItems">
                 <tr>
                     <th>Lp.</th>
                     <th>Towar/Usługa</th>
@@ -48,11 +49,11 @@
                     <td class="numeric">{{ invoiceItem.totalNettoValue() | number:2 }}</td>
                     <td class="numeric">{{ invoiceItem.totalVatValue() | number:2 }}</td>
                     <td class="numeric">{{ invoiceItem.totalBruttoValue() | number:2 }}</td>
-                    <td><a href="" ng-click="removeInvoiceItem(invoiceItem)">Usuń</a></td>
+                    <td><a href="#" class="btn btn-danger btn-sm" ng-click="removeInvoiceItem(invoiceItem)"><span class="glyphicon glyphicon-ok"></span> Usuń</a></td>
                 </tr>
                 <tr>
                     <td colspan="11">
-                        <button type="button" class="btn" ng-click="addNewInvoiceItem();">Dodaj pozycję</button>
+                        <button type="button" class="btn btn-default btn-sm btn-success" ng-click="addNewInvoiceItem();"><span class="glyphicon glyphicon-plus"></span> Dodaj pozycję</button>
                     </td>
                 </tr>
             </table>
