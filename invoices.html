@@ -1,84 +1,90 @@
 <!doctype html>
 <html ng-app>
 <head>
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/bootstrap.js"></script>
     <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/jquery/jquery.min.js"></script>
     <script src="js/model/invoice.js"></script>
     <script src="js/controller/invoice.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-glyphicons.css">
     <link rel="stylesheet" href="css/invoices.css">
 </head>
 <body>
 
+<div class="container" ng-controller="InvoiceController">
+    <div class="row">
 
-<div ng-controller="InvoiceController">
-    <h1>Faktura: <input class="invoiceNumber" type="text" ng-model="invoice.fullNumber"/> (Wystawiana od ceny netto)</h1>
 
-    <p class="disclaimer">
-        Aplikacja prezentacyjna. Przedstawia ona możliwości frameworka AngularJS. Nie można za jej pomocą wystawić Faktury VAT.
-    </p>
+        <h1>Faktura: <input class="invoiceNumber" type="text" ng-model="invoice.fullNumber"/> (Wystawiana od ceny netto)</h1>
 
-    <form class="css-form">
-        <table class="invoiceItems">
+        <p class="disclaimer">
+            Aplikacja prezentacyjna. Przedstawia ona możliwości frameworka AngularJS. Nie można za jej pomocą wystawić Faktury VAT.
+        </p>
+
+        <form class="css-form">
+            <table class="table table-bordered table-condensed invoiceItems">
+                <tr>
+                    <th>Lp.</th>
+                    <th>Towar/Usługa</th>
+                    <th>Ilość</th>
+                    <th>Cena netto</th>
+                    <th>Cena brutto</th>
+                    <th>Stawka VAT</th>
+                    <th>VAT</th>
+                    <th>Wartość netto</th>
+                    <th>Kwota VAT</th>
+                    <th>Kwota Brutto</th>
+                    <th>Operacje</th>
+                </tr>
+                <tr class="invoiceItem" ng-repeat="invoiceItem in invoice.invoiceItems">
+                    <td>{{ $index + 1}}</td>
+                    <td><input type="text" size="20" required ng-model="invoiceItem.name" placeholder="Towar/usługa"/></td>
+                    <td class="numeric"><input type="number" min="1" required size="4" ng-model="invoiceItem.quantity"/></td>
+                    <td class="numeric"><input type="number" min="0" required size="8" ng-model="invoiceItem.unitNettoPrice"/></td>
+                    <td class="numeric">{{ invoiceItem.unitBruttoPrice() | number:2 }}</td>
+                    <td><select ng-model="invoiceItem.vatRate" ng-options="r.name for r in invoice.vatRates" ng-required></select></td>
+                    <td class="numeric">{{ invoiceItem.vat() * 100.0 | number:0 }}%</td>
+                    <td class="numeric">{{ invoiceItem.totalNettoValue() | number:2 }}</td>
+                    <td class="numeric">{{ invoiceItem.totalVatValue() | number:2 }}</td>
+                    <td class="numeric">{{ invoiceItem.totalBruttoValue() | number:2 }}</td>
+                    <td><a href="" ng-click="removeInvoiceItem(invoiceItem)">Usuń</a></td>
+                </tr>
+                <tr>
+                    <td colspan="11">
+                        <button type="button" class="btn" ng-click="addNewInvoiceItem();">Dodaj pozycję</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <h2>Tabela stawek VAT</h2>
+        <table class="table table-bordered table-condensed">
             <tr>
-                <th>Lp.</th>
-                <th>Towar/Usługa</th>
-                <th>Ilość</th>
-                <th>Cena netto</th>
-                <th>Cena brutto</th>
+                <th>Wartość Netto</th>
                 <th>Stawka VAT</th>
                 <th>VAT</th>
-                <th>Wartość netto</th>
                 <th>Kwota VAT</th>
                 <th>Kwota Brutto</th>
-                <th>Operacje</th>
             </tr>
-            <tr class="invoiceItem" ng-repeat="invoiceItem in invoice.invoiceItems">
-                <td>{{ $index + 1}}</td>
-                <td><input type="text" size="20" required ng-model="invoiceItem.name" placeholder="Towar/usługa"/></td>
-                <td class="numeric"><input type="number" min="1" required size="4" ng-model="invoiceItem.quantity"/></td>
-                <td class="numeric"><input type="number" min="0" required size="8" ng-model="invoiceItem.unitNettoPrice"/></td>
-                <td class="numeric">{{ invoiceItem.unitBruttoPrice() | number:2 }}</td>
-                <td><select ng-model="invoiceItem.vatRate" ng-options="r.name for r in invoice.vatRates" ng-required></select></td>
-                <td class="numeric">{{ invoiceItem.vat() * 100.0 | number:0 }}%</td>
-                <td class="numeric">{{ invoiceItem.totalNettoValue() | number:2 }}</td>
-                <td class="numeric">{{ invoiceItem.totalVatValue() | number:2 }}</td>
-                <td class="numeric">{{ invoiceItem.totalBruttoValue() | number:2 }}</td>
-                <td><a href="" ng-click="removeInvoiceItem(invoiceItem)">Usuń</a></td>
+            <tr ng-repeat="vatTableRow in getVatTable().rows">
+                <!-- ng-show="vatTableRow.totalNettoValue" != 0  -->
+                <td class="numeric">{{ vatTableRow.totalNettoValue | number:2 }}</td>
+                <td class="numeric">{{ vatTableRow.vatRate.name }}</td>
+                <td class="numeric">{{ vatTableRow.vatRate.value * 100 | number:0 }} %</td>
+                <td class="numeric">{{ vatTableRow.totalVatValue | number:2 }}</td>
+                <td class="numeric">{{ vatTableRow.totalBruttoValue | number:2 }}</td>
             </tr>
-            <tr>
-                <td colspan="11">
-                    <button type="button" ng-click="addNewInvoiceItem();">Dodaj pozycję</button>
-                </td>
+            <tr class="summaryRow">
+                <!-- FIXME make vatTable recalculate itself, and then make it available as regular model
+                FIXME now works with hack that getVatTable() refreshes invoice.vatTable so we can read it again -->
+                <td class="numeric">{{ invoice.vatTable.summaryRow.totalNettoValue | number:2 }}</td>
+                <td class="numeric">-</td>
+                <td class="numeric">-</td>
+                <td class="numeric">{{ invoice.vatTable.summaryRow.totalVatValue | number:2 }}</td>
+                <td class="numeric">{{ invoice.vatTable.summaryRow.totalBruttoValue | number:2 }}</td>
             </tr>
         </table>
-    </form>
-    <h2>Tabela stawek VAT</h2>
-    <table>
-        <tr>
-            <th>Wartość Netto</th>
-            <th>Stawka VAT</th>
-            <th>VAT</th>
-            <th>Kwota VAT</th>
-            <th>Kwota Brutto</th>
-        </tr>
-        <tr ng-repeat="vatTableRow in getVatTable().rows">
-            <!-- ng-show="vatTableRow.totalNettoValue" != 0  -->
-            <td class="numeric">{{ vatTableRow.totalNettoValue | number:2 }}</td>
-            <td class="numeric">{{ vatTableRow.vatRate.name }}</td>
-            <td class="numeric">{{ vatTableRow.vatRate.value * 100 | number:0 }} %</td>
-            <td class="numeric">{{ vatTableRow.totalVatValue | number:2 }}</td>
-            <td class="numeric">{{ vatTableRow.totalBruttoValue | number:2 }}</td>
-        </tr>
-        <tr class="summaryRow">
-            <!-- FIXME make vatTable recalculate itself, and then make it available as regular model
-            FIXME now works with hack that getVatTable() refreshes invoice.vatTable so we can read it again -->
-            <td class="numeric">{{ invoice.vatTable.summaryRow.totalNettoValue | number:2 }}</td>
-            <td class="numeric">-</td>
-            <td class="numeric">-</td>
-            <td class="numeric">{{ invoice.vatTable.summaryRow.totalVatValue | number:2 }}</td>
-            <td class="numeric">{{ invoice.vatTable.summaryRow.totalBruttoValue | number:2 }}</td>
-        </tr>
-    </table>
+    </div>
 </div>
 
 </body>
