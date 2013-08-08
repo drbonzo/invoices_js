@@ -1,4 +1,6 @@
-function InvoiceController($scope) {
+var invoicesApp = angular.module('invoicesApp', []);
+
+invoicesApp.controller('InvoiceController', function ($scope) {
     /**
      * @type {InvoiceFromNettoPrices}
      */
@@ -36,4 +38,4 @@ function InvoiceController($scope) {
         $scope.invoice.vatTable.refresh(invoice.invoiceItems);
     }, true); // true - deep watching
 
-}
+});
