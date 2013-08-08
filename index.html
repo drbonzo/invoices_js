@@ -67,7 +67,7 @@
                 <th>Kwota VAT</th>
                 <th>Kwota Brutto</th>
             </tr>
-            <tr ng-repeat="vatTableRow in getVatTable().rows" ng-show="vatTableRow.totalNettoValue > 0">
+            <tr ng-repeat="vatTableRow in invoice.vatTable.rows" ng-show="vatTableRow.totalNettoValue > 0">
                 <!-- ng-show="vatTableRow.totalNettoValue" != 0  -->
                 <td class="numeric">{{ vatTableRow.totalNettoValue | number:2 }}</td>
                 <td class="numeric">{{ vatTableRow.vatRate.name }}</td>
@@ -76,8 +76,6 @@
                 <td class="numeric">{{ vatTableRow.totalBruttoValue | number:2 }}</td>
             </tr>
             <tr class="summaryRow">
-                <!-- FIXME make vatTable recalculate itself, and then make it available as regular model
-                FIXME now works with hack that getVatTable() refreshes invoice.vatTable so we can read it again -->
                 <td class="numeric">{{ invoice.vatTable.summaryRow.totalNettoValue | number:2 }}</td>
                 <td class="numeric">-</td>
                 <td class="numeric">-</td>

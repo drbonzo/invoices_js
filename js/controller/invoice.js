@@ -29,7 +29,11 @@ function InvoiceController($scope) {
         $scope.invoice.removeInvoiceItem(invoiceItem);
     };
 
-    $scope.getVatTable = function () {
-        return $scope.invoice.getVatTable();
-    }
+    /**
+     * When invoice values are changing - then update VatTable
+     */
+    $scope.$watch('invoice.invoiceItems', function (newValue) {
+        $scope.invoice.vatTable.refresh(invoice.invoiceItems);
+    }, true); // true - deep watching
+
 }

@@ -1,3 +1,4 @@
+// FIXME     this.vatTable.refresh(this.invoiceItems); to ma sie robic na watch z invoices
 function InvoiceFromBruttoPrices() {
 
 }
@@ -101,14 +102,6 @@ InvoiceFromNettoPrices.prototype.removeInvoiceItem = function (invoiceItem) {
  */
 InvoiceFromNettoPrices.prototype.addNewInvoiceItem = function () {
     return this.addInvoiceItemFromData('', 0.0, 1, this.vatRates[0]);
-};
-
-/**
- * @returns {InvoiceVatTable}
- */
-InvoiceFromNettoPrices.prototype.getVatTable = function () {
-    this.vatTable.refresh(this.invoiceItems);
-    return this.vatTable;
 };
 
 function InvoiceItem() {
